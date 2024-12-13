@@ -128,10 +128,13 @@
                 switch (option)
                 {
                     case ConsoleKey.D1:
+                        CallsMenu();
                         break;
                     case ConsoleKey.D2:
+                        DirectoriesMenu();
                         break;
                     case ConsoleKey.D3:
+
                         break;
                     case ConsoleKey.D4:
                         stop = true;
