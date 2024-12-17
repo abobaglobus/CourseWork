@@ -2,20 +2,18 @@
 {
     internal class Program
     {
-        static string AmbulanceCallsFilePath = "ambulance-calls.txt";
-        static string SpecializationsOfBrigadesFilePath = "specializations-of-brigades.txt";
-        static string ActionsOfBrigadesFilePath = "actions-of-brigades.txt";
-        static List<AmbulanceCall> AmbulanceCalls = new List<AmbulanceCall>();
-        static List<string> SpecializationsOfBrigades = new List<string>();
-        static List<string> ActionsOfBrigades = new List<string>();
+        const string AmbulanceCallsFilePath = "ambulance-calls.txt";
+        const string SpecializationsOfBrigadesFilePath = "specializations-of-brigades.txt";
+        const string ActionsOfBrigadesFilePath = "actions-of-brigades.txt";
         static void Main(string[] args)
         {
             MainMenu();
         }
 
-        static void LoadAmbulanceCalls()
+        static List<AmbulanceCall> LoadAmbulanceCalls()
         {
             var allAmbulanceCallsLines = File.ReadAllLines(AmbulanceCallsFilePath);
+            List<AmbulanceCall> ambulanceCalls = new List<AmbulanceCall>();
 
             foreach (var ambulanceCallLine in allAmbulanceCallsLines)
             {
@@ -32,18 +30,35 @@
                 ambulanceCall.PatientSex = splitAmbulanceCallLine[7];
                 ambulanceCall.BrigadeActions = splitAmbulanceCallLine[8];
 
-                AmbulanceCalls.Add(ambulanceCall);
+                ambulanceCalls.Add(ambulanceCall);
             }
+
+            return ambulanceCalls;
         }
 
-        static void LoadSpecializationsOfBrigades()
+        static List<string> LoadSpecializationsOfBrigades()
         {
-            SpecializationsOfBrigades.AddRange(File.ReadAllLines(SpecializationsOfBrigadesFilePath));
+            var specializationsOfBrigades = File.ReadAllLines(SpecializationsOfBrigadesFilePath).ToList();
+
+            return specializationsOfBrigades;
         }
 
-        static void LoadActionsOfBrigades()
+        static List<string> LoadActionsOfBrigades()
         {
-            ActionsOfBrigades.AddRange(File.ReadAllLines(ActionsOfBrigadesFilePath));
+            var actionsOfBrigades = File.ReadAllLines(ActionsOfBrigadesFilePath).ToList();
+
+            return actionsOfBrigades;
+        }
+
+        static void SaveSpecializationsOfBrigades(List<string> specializationsOfBrigades)
+        {
+            using (StreamWriter sw = new StreamWriter(SpecializationsOfBrigadesFilePath))
+            {
+                foreach (var specializationOfBrigades in specializationsOfBrigades)
+                {
+                    sw.WriteLine(specializationOfBrigades);
+                }
+            }
         }
 
         static void CallsMenu()
